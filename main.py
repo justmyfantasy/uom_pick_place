@@ -32,8 +32,8 @@ def bbox2xyz(bbox, depth):
     center = np.array(bbox).reshape(2,2).mean(axis=0).astype(np.uint)
     xyz[2] = depth[center[0], center[1]] * 1e-3
     
-    xyz[0] = (center[1] - intrins[0, 2]) / intrins[0, 0] * xyz[2]
-    xyz[1] = (1080 - center[0] - intrins[1, 2]) / intrins[1, 1] *xyz[2]
+    xyz[0] = (center[1] - intrins[0, 2]) / intrins[0, 0] * xyz[2] 
+    xyz[1] = - (1080 - center[0] - intrins[1, 2]) / intrins[1, 1] * xyz[2] # y axis is opposite for aruco-estimated pose and kinectv2 pose
 
     return xyz
 
@@ -66,7 +66,7 @@ while True:
                         (det['bbox'][1], det['bbox'][0]+45), 
                         cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2) 
 
-        # convert baack for show
+        # convert back for show
         r_image = cv2.cvtColor(r_image, cv2.COLOR_RGB2BGR)
         cv2.imshow('image', r_image)
 
